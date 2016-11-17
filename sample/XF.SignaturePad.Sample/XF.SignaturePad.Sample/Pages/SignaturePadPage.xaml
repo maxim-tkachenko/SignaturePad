@@ -23,6 +23,9 @@
     <!--ClearText = ""
   ClearTextColor = "Black"-->
 
-    <Button Text="Save" Command="{Binding SaveCommand}" CommandParameter="{x:Reference PadView}" />
+    <Button Text="Save"
+            Command="{Binding SaveCommand}"
+            CommandParameter="{x:Reference PadView}"
+            VerticalOptions="EndAndExpand" />
   </StackLayout>
 </ContentPage>

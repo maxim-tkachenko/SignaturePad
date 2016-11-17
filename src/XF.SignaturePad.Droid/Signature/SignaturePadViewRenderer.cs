@@ -69,6 +69,7 @@ namespace XF.SignaturePad.Droid
                 if (Control != null)
                 {
                     Control.RaiseIsBlankChangedDelegate = null;
+                    Control.UnsubscribeFromEvents();
                 }
             }
 

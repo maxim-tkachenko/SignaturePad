@@ -121,6 +121,11 @@ namespace XF.SignaturePad.Droid
         private TextView xLabel;
 
         /// <summary>
+        /// Label for the Clear.
+        /// </summary>
+        private TextView lblClear;
+
+        /// <summary>
         /// Default constructor.
         /// </summary>
         /// <param name="context">Context to use.</param>
@@ -289,6 +294,22 @@ namespace XF.SignaturePad.Droid
         }
 
         /// <summary>
+		/// Gets the label that clears the pad when clicked.
+		/// </summary>
+		/// <value>The clear label.</value>
+		public TextView ClearLabel
+        {
+            get
+            {
+                return lblClear;
+            }
+            set
+            {
+                xLabel = value;
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the color of the strokes for the signature.
         /// </summary>
         public Color StrokeColor
@@ -401,6 +422,7 @@ namespace XF.SignaturePad.Droid
             currentPoints = new List<System.Drawing.PointF>();
             currentPath = new Path();
             imageView.SetImageBitmap(null);
+            lblClear.Visibility = ViewStates.Invisible;
             GC.Collect();
 
             canvasView.Invalidate();
@@ -688,6 +710,7 @@ namespace XF.SignaturePad.Droid
             DrawStrokes();
 
             //Display the clear button.
+            lblClear.Visibility = ViewStates.Visible;
             Invalidate();
             NotifyIsBlankChanged();
         }
@@ -718,6 +741,7 @@ namespace XF.SignaturePad.Droid
                     currentPoints.Clear();
                     currentPoints.Add(touch);
 
+                    lblClear.Visibility = ViewStates.Visible;
                     return true;
 
                 case MotionEventActions.Move:
@@ -759,7 +783,7 @@ namespace XF.SignaturePad.Droid
         protected int GenerateId()
         {
             int id;
-            for (; ; )
+            for (;;)
             {
                 id = rndId.Next(1, 0x00FFFFFF);
                 if (FindViewById<View>(id) != null)
@@ -1052,6 +1076,19 @@ namespace XF.SignaturePad.Droid
 
             AddView(canvasView);
 
+            lblClear = new TextView(context);
+            lblClear.Id = GenerateId();
+            lblClear.Text = "Clear";
+            layout = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WrapContent, RelativeLayout.LayoutParams.WrapContent);
+            layout.SetMargins(0, 10, 22, 0);
+            layout.AlignWithParent = true;
+            layout.AddRule(LayoutRules.AlignRight);
+            layout.AddRule(LayoutRules.AlignTop);
+            lblClear.LayoutParameters = layout;
+            lblClear.Visibility = ViewStates.Invisible;
+            lblClear.Click += LblClear_Click;
+            AddView(lblClear);
+
             #endregion Add Subviews
 
             paths = new List<Path>();
@@ -1059,6 +1096,17 @@ namespace XF.SignaturePad.Droid
             currentPoints = new List<System.Drawing.PointF>();
 
             dirtyRect = new RectF();
+        }
+
+        private void LblClear_Click(object sender, EventArgs e)
+        {
+            Clear();
+        }
+
+        public void UnsubscribeFromEvents()
+        {
+            if (lblClear != null)
+                lblClear.Click += LblClear_Click;
         }
 
         /// <summary>
