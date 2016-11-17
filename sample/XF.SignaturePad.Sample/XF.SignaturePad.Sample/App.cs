@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using System.Threading.Tasks;
 using Xamarin.Forms;
+using XF.SignaturePad.Sample.Pages;
 
 namespace XF.SignaturePad.Sample
 {
@@ -11,23 +12,17 @@ namespace XF.SignaturePad.Sample
     {
         public App()
         {
-            // The root page of your application
-            var content = new ContentPage
-            {
-                Title = "XF.SignaturePad.Sample",
-                Content = new StackLayout
-                {
-                    VerticalOptions = LayoutOptions.Center,
-                    Children = {
-                        new Label {
-                            HorizontalTextAlignment = TextAlignment.Center,
-                            Text = "Welcome to Xamarin Forms!"
-                        }
-                    }
-                }
-            };
+            MainPage = new SignaturePadPage();
+        }
 
-            MainPage = new NavigationPage(content);
+        public static async Task ShowAlert(string title, string message, string cancel)
+        {
+            await Current.MainPage.DisplayAlert(title, message, cancel);
+        }
+
+        public static async Task ShowAlert(string message)
+        {
+            await Current.MainPage.DisplayAlert("SignaturePad.Sample", message, "OK");
         }
 
         protected override void OnStart()

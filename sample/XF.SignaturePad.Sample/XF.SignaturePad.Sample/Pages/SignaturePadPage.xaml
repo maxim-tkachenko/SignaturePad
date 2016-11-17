@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:signaturePad="clr-namespace:XF.SignaturePad;assembly=XF.SignaturePad"
+             xmlns:viewModels="clr-namespace:XF.SignaturePad.Sample.ViewModels;assembly=XF.SignaturePad.Sample"
+             x:Class="XF.SignaturePad.Sample.Pages.SignaturePadPage">
+
+  <StackLayout>
+    <StackLayout.BindingContext>
+      <viewModels:SignaturePadViewModel/>
+    </StackLayout.BindingContext>
+
+    <signaturePad:SignaturePadView
+                  x:Name="PadView"
+                  StrokeWidth = "5"
+                  HeightRequest = "300"
+                  HorizontalOptions = "FillAndExpand"
+                  BackgroundColor = "White"
+                  CaptionText = " "
+                  CaptionTextColor = "Black"
+                  SignatureLineColor = "Black"
+                  StrokeColor = "Black" />
+    <!--ClearText = ""
+  ClearTextColor = "Black"-->
+
+    <Button Text="Save" Command="{Binding SaveCommand}" CommandParameter="{x:Reference PadView}" />
+  </StackLayout>
+</ContentPage>
